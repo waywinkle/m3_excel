@@ -1,7 +1,7 @@
 __author__ = 'jessem'
 
 from excel_read import get_excel_data
-from m3_rest import rest_update_call
+from m3_rest_func import rest_update_call
 import pprint
 from settings import settings
 
