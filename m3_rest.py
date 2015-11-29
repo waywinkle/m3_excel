@@ -43,9 +43,15 @@ class M3_rest:
                    auth=self.auth,
                    params=self.parameters,
                    headers={'Accept': 'application/json'})
-        result = resp.json()
+        try:
+            return self._process_result(resp.json())
+        except ValueError:
+            result_text = resp.text
+            if '<h2>Unauthorized</h2>' in result_text:
+                return 'Unauthorized user'
 
-        return self._process_result(result)
+            return resp.text
+
 
     def _process_result(self, result):
         if result.get('@type') == 'ServerReturnedNOK':

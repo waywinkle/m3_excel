@@ -4,6 +4,7 @@ __author__ = 'jessem'
 from tkinter import ttk, filedialog, Button, END, LEFT, Tk, RIGHT, N, S, E, W, Label, Entry
 from tkinter.scrolledtext import ScrolledText
 from process_file import process_file
+import sys
 
 class App:
 
@@ -63,16 +64,25 @@ class App:
 
     def process(self):
 
-        if self.file_reference:
-            transaction_results = process_file(self.file_reference, self.username.get(), self.password.get())
+        if hasattr(self, 'file_reference'):
 
-            self.text.config(state='normal')
+            try:
+                transaction_results = process_file(self.file_reference, self.username.get(), self.password.get())
 
-            for i in transaction_results:
-                self.text.insert(END, i['result'] + '\n')
-                self.text.insert(END, '\n')
+                for i in transaction_results:
+                    self.write_log(i['result'])
 
-            self.text.config(state='disabled')
+            except:
+                e = sys.exc_info()
+                self.write_log(str(e))
+
+        else:
+            self.write_log('No file selected')
+
+    def write_log(self, log_text):
+        self.text.config(state='normal')
+        self.text.insert(END, log_text + '\n')
+        self.text.config(state='disable')
 
 
 def main():
