@@ -62,15 +62,13 @@ class App:
         self.file_reference = filedialog.askopenfilename(filetypes = ftypes)
 
     def process(self):
-        self.auth_dict = {'user':self.username.get(), 'password':self.password.get()}
 
         if self.file_reference:
-            transaction_results = process_file(self.file_reference, self.auth_dict)
+            transaction_results = process_file(self.file_reference, self.username.get(), self.password.get())
 
             self.text.config(state='normal')
 
             for i in transaction_results:
-                self.text.insert(END, i['process_rows']['itno'] + '\n')
                 self.text.insert(END, i['result'] + '\n')
                 self.text.insert(END, '\n')
 

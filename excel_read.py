@@ -20,7 +20,7 @@ def get_excel_data(workbook):
         transaction_grid = []
         last_field = None
 
-        for row in ws.get_squared_range(1, 4, MAX_COLUMNS, MAX_ROWS):
+        for row in ws.get_squared_range(2, 4, MAX_COLUMNS, MAX_ROWS):
             if row[0].value:
                 grid_index = row[0].row - 4
                 transaction_grid.append([])
@@ -39,15 +39,21 @@ def get_excel_data(workbook):
 
                 if i == 0 and j > 0:
                     process_rows.append({})
+                    process_rows[j-1]['excel_cell'] = {'column': 1, 'row': j + 1}
                 elif j == 0:
                     field_name = transaction_grid[j][i]
                 elif transaction_grid[j][i]:
                     process_rows[j - 1][field_name] = transaction_grid[j][i]
 
-        all_transactions.append({'program': program,
-                                 'transaction': transaction,
-                                 'process_rows': process_rows
-                                 })
+
+        for process_row in process_rows:
+            cell_ref = {'ws':ws}
+            cell_ref.update(process_row.pop('excel_cell', {}))
+            all_transactions.append({'program': program,
+                                     'transaction': transaction,
+                                     'parameters': process_row,
+                                     'result_cell': cell_ref
+                                     })
 
     return all_transactions
 

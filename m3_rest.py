@@ -12,7 +12,7 @@ PROGRAM = 'MMS200MI'
 TRANSACTION = 'CpyItmBasic'
 HEADERS = {'Accept': 'application/json'}
 MAXRECS = 2
-MI_PARAMS = {'BUAR': 900, 'ITNO': 'CLABTEST07', 'STAT': 10, 'ITTY': 'Z95', 'RESP': 'MOVEX', 'ITCL': '9200', 'UNMS': 'EA', 'FUDS': '0.45um RC Syringe Filter', 'ITDS': '0.45um RC Syringe Filter', 'ITGR': 'CON', 'CITN': 'Z95000'}
+MI_PARAMS = {'BUAR': 900, 'ITNO': 'CLABTEST08', 'STAT': 10, 'ITTY': 'Z95', 'RESP': 'MOVEX', 'ITCL': '9200', 'UNMS': 'EA', 'FUDS': '0.45um RC Syringe Filter', 'ITDS': '0.45um RC Syringe Filter', 'ITGR': 'CON', 'CITN': 'Z95000'}
 
 
 class M3_rest:
@@ -44,15 +44,17 @@ class M3_rest:
                    params=self.parameters,
                    headers={'Accept': 'application/json'})
         result = resp.json()
+
         return self._process_result(result)
 
     def _process_result(self, result):
         if result.get('@type') == 'ServerReturnedNOK':
             return result['@type'] + ' : ' + self._remove_extra_space(result['Message'])
         else:
-            return result['Program'] + ':' + result['Transaction'] + ', ' + \
-            'Name=' + result['MIRecord'][0]['NameValue'][0]['Name'] + ', ' + \
-            'Value=' + result['MIRecord'][0]['NameValue'][0]['Value']
+            return 'Transaction OK! : ' + \
+                result['Program'] + ':' + result['Transaction'] + ', ' + \
+                'Name=' + result['MIRecord'][0]['NameValue'][0]['Name'] + ', ' + \
+                'Value=' + result['MIRecord'][0]['NameValue'][0]['Value']
 
     def _remove_extra_space(self, string):
         last = ''
