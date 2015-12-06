@@ -39,7 +39,7 @@ def get_excel_data(workbook):
 
                 if i == 0 and j > 0:
                     process_rows.append({})
-                    process_rows[j-1]['excel_cell'] = {'column': 1, 'row': j + 1}
+                    process_rows[j-1]['excel_cell'] = {'column': 1, 'row': j + 3}
                 elif j == 0:
                     field_name = transaction_grid[j][i]
                 elif transaction_grid[j][i]:

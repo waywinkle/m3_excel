@@ -9,11 +9,11 @@ USER = settings['user']
 PASSWORD = settings['password']
 BASE = settings['base_exec_url']
 PROGRAM = 'MMS200MI'
-TRANSACTION = 'CpyItmBasic'
+TRANSACTION = 'CpyItmWhs'
 HEADERS = {'Accept': 'application/json'}
 MAXRECS = 2
-MI_PARAMS = {'BUAR': 900, 'ITNO': 'CLABTEST08', 'STAT': 10, 'ITTY': 'Z95', 'RESP': 'MOVEX', 'ITCL': '9200', 'UNMS': 'EA', 'FUDS': '0.45um RC Syringe Filter', 'ITDS': '0.45um RC Syringe Filter', 'ITGR': 'CON', 'CITN': 'Z95000'}
-
+#MI_PARAMS = {'BUAR': 900, 'ITNO': 'CLABTEST08', 'STAT': 10, 'ITTY': 'Z95', 'RESP': 'MOVEX', 'ITCL': '9200', 'UNMS': 'EA', 'FUDS': '0.45um RC Syringe Filter', 'ITDS': '0.45um RC Syringe Filter', 'ITGR': 'CON', 'CITN': 'Z95000'}
+MI_PARAMS = {'CONO': 100, 'ITNO': 'CLAB1TEST13'}
 
 class M3_rest:
 
@@ -52,13 +52,13 @@ class M3_rest:
 
             return resp.text
 
-
     def _process_result(self, result):
         if result.get('@type') == 'ServerReturnedNOK':
             return result['@type'] + ' : ' + self._remove_extra_space(result['Message'])
+        elif result.get('@type') == 'MandatoryInputFieldNotFound':
+            return result['Message']
         else:
             return 'Transaction OK! : ' + \
-                result['Program'] + ':' + result['Transaction'] + ', ' + \
                 'Name=' + result['MIRecord'][0]['NameValue'][0]['Name'] + ', ' + \
                 'Value=' + result['MIRecord'][0]['NameValue'][0]['Value']
 

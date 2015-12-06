@@ -7,7 +7,7 @@ from settings import settings
 FILE_NAME = 'AddItmBasic.xlsx'
 PATH = settings['file_output_path']
 PROGRAM = 'MMS200MI'
-TRANSACTION = 'CpyItmBasic'
+TRANSACTION = 'CpyItmWhs'
 
 
 def create_empty_transaction(program, transaction):

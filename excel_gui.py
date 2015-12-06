@@ -4,6 +4,7 @@ __author__ = 'jessem'
 from tkinter import ttk, filedialog, Button, END, LEFT, Tk, RIGHT, N, S, E, W, Label, Entry
 from tkinter.scrolledtext import ScrolledText
 from process_file import process_file
+from excel_read_ob import excel_mi
 import sys
 
 class App:
@@ -67,10 +68,12 @@ class App:
         if hasattr(self, 'file_reference'):
 
             try:
-                transaction_results = process_file(self.file_reference, self.username.get(), self.password.get())
+                trans = excel_mi(self.file_reference, self.username.get(), self.password.get())
+                trans.process_trans()
 
-                for i in transaction_results:
-                    self.write_log(i['result'])
+                for i in trans:
+                    log = i['program'] + '.' + i['transaction'] + ': ' + i['result']
+                    self.write_log(log)
 
             except:
                 e = sys.exc_info()

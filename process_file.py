@@ -19,7 +19,10 @@ def process_file(file, username, password):
         mi['result'] = mi_object.m3_get()
         ws = mi['result_cell']['ws']
         result_cell = ws.cell(row = mi['result_cell']['row'], column = mi['result_cell']['column'])
+        print(result_cell.value)
+        print(mi['result'])
         result_cell.value = mi['result']
+        print(result_cell.value)
 
     return transactions
 
